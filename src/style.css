@@ -64,4 +64,13 @@ form button{
     padding: 10px;
     font-size: 1.3rem;
     font-weight: bolder;
+    background-color: rgb(98, 100, 105);
+    border: none;
+    outline: none;
+    color: rgb(255, 255, 255);
+    transition: .3s ease background-color;
+}
+button:hover{
+    background-color: rgb(185, 185, 185);
+    color: #000;
 }
