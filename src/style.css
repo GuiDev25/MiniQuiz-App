@@ -26,6 +26,7 @@ section{
     overflow: hidden;
 }
 .container .scoreBoard{
+    visibility: hidden;
     position: absolute;
     top: 20px;
     right: 20px;
