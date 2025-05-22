@@ -46,9 +46,8 @@ const questions = [
     }
 ];
 
-// Seleção dos elementos HTML
 const questionElement = document.getElementById("question");
-const answerButtonsContainer = document.getElementById("answer-burrons"); // O container das opções e do botão
+const answerButtonsContainer = document.getElementById("answer-burrons");
 const nextButton = document.getElementById("next-btn");
 const scoreNumElement = document.querySelector(".score-num");
 const answeredNumElement = document.querySelector(".answered-num");
@@ -57,33 +56,26 @@ const quizForm = document.getElementById("quiz_form");
 let currentQuestionIndex = 0;
 let score = 0;
 
-// Função para iniciar ou reiniciar o quiz
 function startQuiz() {
     currentQuestionIndex = 0;
     score = 0;
-    nextButton.textContent = "Enviar"; // Volta o texto do botão para "Enviar"
-    nextButton.style.display = "block"; // Garante que o botão esteja visível
+    nextButton.textContent = "Enviar"; 
+    nextButton.style.display = "block"; 
     
-    // Remove qualquer listener anterior que possa ter sido adicionado para 'Jogar Novamente'
     nextButton.removeEventListener("click", startQuiz); 
-    // Adiciona o listener padrão para avançar as questões
     nextButton.addEventListener("click", handleNextButton);
 
     updateScoreBoard();
     showQuestion();
 }
 
-// Função para exibir a pergunta e suas opções
 function showQuestion() {
-    // Primeiro, limpa todas as opções dinamicamente criadas
-    // Percorre de trás para frente para evitar problemas de índice ao remover
     const existingOptions = answerButtonsContainer.querySelectorAll(".option");
     existingOptions.forEach(option => option.remove());
 
     const currentQuestion = questions[currentQuestionIndex];
     questionElement.textContent = `${currentQuestionIndex + 1}. ${currentQuestion.question}`;
 
-    // Cria e adiciona as novas opções de rádio
     currentQuestion.answers.forEach(answer => {
         const optionDiv = document.createElement("div");
         optionDiv.classList.add("option");
@@ -102,8 +94,6 @@ function showQuestion() {
         optionDiv.appendChild(inputRadio);
         optionDiv.appendChild(label);
         
-        // Insere a nova opção ANTES do div.buttons que já existe no HTML
-        // Isso garante que as opções fiquem acima do botão.
         const buttonsDiv = answerButtonsContainer.querySelector('.buttons');
         if (buttonsDiv) {
             answerButtonsContainer.insertBefore(optionDiv, buttonsDiv);
@@ -114,7 +104,6 @@ function showQuestion() {
     });
 }
 
-// Função para lidar com o clique/submissão do botão "Enviar" ou "Próximo"
 function handleNextButton() {
     const selectedOption = document.querySelector('input[name="quiz"]:checked');
 
@@ -133,50 +122,37 @@ function handleNextButton() {
     updateScoreBoard();
 
     if (currentQuestionIndex < questions.length) {
-        // Desmarca as opções de rádio para a próxima pergunta
         const radios = quizForm.elements.quiz;
         for (let i = 0; i < radios.length; i++) {
             radios[i].checked = false;
         }
-        showQuestion(); // Exibe a próxima pergunta
+        showQuestion();
     } else {
-        showResult(); // Exibe o resultado final
+        showResult();
     }
 }
 
 // Função para atualizar o placar
 function updateScoreBoard() {
     scoreNumElement.textContent = score;
-    answeredNumElement.textContent = currentQuestionIndex; // Mostra quantas questões já foram respondidas
+    answeredNumElement.textContent = currentQuestionIndex;
 }
 
-// Função para exibir o resultado final do quiz
 function showResult() {
-    // Remove apenas as divs de opção, mantendo a div de botões e o próprio botão
     const existingOptions = answerButtonsContainer.querySelectorAll(".option");
     existingOptions.forEach(option => option.remove());
 
-    // Dentro da função showResult()
     questionElement.innerHTML = `Quiz Finalizado!<br>Você acertou ${score} de ${questions.length} questões.`;
     nextButton.textContent = "Jogar Novamente";
     
-    // Remove o listener de handleNextButton e adiciona o de startQuiz
     nextButton.removeEventListener("click", handleNextButton);
     nextButton.addEventListener("click", startQuiz);
 }
 
-// Event Listener para o formulário (preferível para inputs de rádio)
-// Usa 'submit' para que a validação de "selecionar uma opção" seja mais robusta
 quizForm.addEventListener("submit", (e) => {
-    e.preventDefault(); // Previne o comportamento padrão de recarregar a página
-    // handleNextButton é chamado pelo listener do botão, então não precisamos dele aqui
-    // Apenas garantimos que o formulário não recarregue a página
+    e.preventDefault(); 
 });
 
-// Adiciona o listener de clique ao botão principal. 
-// Ele será reatribuído em 'startQuiz' ou 'showResult' conforme a necessidade.
 nextButton.addEventListener("click", handleNextButton);
 
-
-// Inicia o quiz quando a página carrega
 startQuiz();
