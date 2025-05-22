@@ -22,4 +22,46 @@ section{
     min-height: 500px;
     border-radius: 8px;
     color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+.container .scoreBoard{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+form h1{
+    font-size: 1.4rem;
+    line-height: 2rem;
+    margin-bottom: 2rem;
+}
+form .option{
+    font-size: 1.2rem;
+    margin: 10px 0;
+    padding: 10px;
+    transition: .3s ease background-color;
+    border-radius: 4px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: stretch;
+}
+form .option label {
+    width: 100%;
+    margin-left: 10px;
+    cursor: pointer;
+    justify-self: stretch;    
+}
+form .option:hover{
+    background-color: rgb(23, 23, 24);
+}
+form .option input[type="radio"]:checked + label{
+    color: rgb(0, 238, 255);
+}
+form button{
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 1.3rem;
+    font-weight: bolder;
 }
